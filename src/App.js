@@ -13,16 +13,19 @@ class App extends Component {
     };
   }
   render() {
-     return (
-       <div className="App">
-         <Navbar dark color="primary">
-           <div className="container">
-             <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
-           </div>
-         </Navbar>
-         <Staffs staffsList={this.state.staffsList} />
-       </div>
-     );
+    return (
+      <div>
+        <div className="App">
+          <Navbar dark color="primary">
+            <div className="container">
+              <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
+            </div>
+          </Navbar>
+          <Staffs staffsList={this.state.staffsList} />
+        </div>
+        <h4 className="App-text">Bấm vào tên nhân viên để xem thông tin.</h4>
+      </div>
+    );
   }
  
 }
