@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card, Row, Col } from 'reactstrap'
 
 
 class Staffs extends Component {
@@ -10,8 +11,10 @@ class Staffs extends Component {
     render() {
         const staffs = this.props.staffsList.map((staff) => {
           return (
-            <div key={staff.id}>
+            <div key={staff.id} className="col-6 col-md-5">
+              <Row>
                     <h4>{staff.name}</h4>
+              </Row>
             </div>
           );
         });
