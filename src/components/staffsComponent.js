@@ -12,17 +12,17 @@ class Staffs extends Component {
     render() {
         const staffs = this.props.staffsList.map((staff) => {
           return (
-            <div key={staff.id} className="col-6 col-md-5">
+            <div key={staff.id} className="col-12 col-md-6 col-xl-4">
               <Row>
                 <Card
                   className="my-2"
                   color="primary"
                   outline
                   style={{
-                    width: "28rem",
+                    width: "90%",
                   }}
                 >
-                  <Col xs="6">
+                  <Col>
                     <h4>{staff.name}</h4>
                   </Col>
                 </Card>
