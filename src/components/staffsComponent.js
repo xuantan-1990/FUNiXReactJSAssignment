@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
-import { Card, Row, Col } from 'reactstrap'
+import { Button, Card, Row, Col } from 'reactstrap'
 import dateFormat from "dateformat"; 
+import { COLUMNS } from "../shared/column";
 
 
 class Staffs extends Component {
     constructor(props) {
         super(props)
         this.state = {
-           selectedEmployee: null
-        }
+          selectedEmployee: null,
+          selectedCol: COLUMNS,
+        };
   }
   
   onSelect(staff) {
     this.setState({selectedEmployee: staff})
+  }
+ 
+  renderCols() {
+    
   }
 
   renderEmployee(staff) {
@@ -43,33 +49,45 @@ class Staffs extends Component {
       );
     }
   }
-    render() {
+  render() {
+    const cols = this.state.selectedCol.map((col) => {
+      return (
+        <div>
+          <div>
+            <Button color="success" className="my-2 m-1">
+              <h4> {col.name} </h4>
+            </Button>
+          </div>
+        </div>
+      );
+    });
         const staffs = this.props.staffsList.map((staff) => {
           return (
-            <div
-              key={staff.id}
-              className="col-12 col-md-6 col-xl-4"
-              onClick={() => this.onSelect(staff)}
-            >
-              <Row>
-                <Card
-                  className="my-2"
-                  color="primary"
-                  outline
-                  style={{
-                    width: "90%",
-                  }}
-                >
-                  <Col>
-                    <h4>{staff.name}</h4>
-                  </Col>
-                </Card>
-              </Row>
-            </div>
+              <div
+                key={staff.id}
+                className="col-12 col-md-6 col-xl-4"
+                onClick={() => this.onSelect(staff)}
+              >
+                <Row>
+                  <Card
+                    className="my-2"
+                    color="primary"
+                    outline
+                    style={{
+                      width: "90%",
+                    }}
+                  >
+                    <Col>
+                      <h4>{staff.name}</h4>
+                    </Col>
+                  </Card>
+                </Row>
+              </div>
           );
         });
         return (
           <div className="container">
+            <div className="row">{cols}</div>
             <div className="row">{staffs}</div>
             <div className="row">
               {this.renderEmployee(this.state.selectedEmployee)}
