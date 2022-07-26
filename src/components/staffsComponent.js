@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Card, Row, Col } from 'reactstrap'
-import "bootstrap/dist/css/bootstrap.min.css";
 import dateFormat from "dateformat"; 
 
 
@@ -19,13 +18,27 @@ class Staffs extends Component {
   renderEmployee(staff) {
     if (staff != null) {
       return (
-        <Col className="col-12 col-md-6 col-xl-4">
-          <h3>Họ và tên: {staff.name}</h3>
-          <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
-          <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-          <p>Phòng ban: {staff.department.name}</p>
-          <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
-          <p>Số ngày đã làn thêm: {staff.overTime}</p>
+        <Col>
+          <Row>
+            <div className="col-12 col-md-6 col-xl-6">
+              <img
+                width="100%"
+                float="right"
+                src={staff.image}
+                alt={staff.name}
+              />
+            </div>
+            <div className="col-12 col-md-6 col-xl-6">
+              <h3>Họ và tên: {staff.name}</h3>
+              <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
+              <p>
+                Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
+              </p>
+              <p>Phòng ban: {staff.department.name}</p>
+              <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
+              <p>Số ngày đã làn thêm: {staff.overTime}</p>
+            </div>
+          </Row>
         </Col>
       );
     } else {
