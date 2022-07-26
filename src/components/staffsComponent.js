@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, Row, Col } from 'reactstrap'
 import dateFormat from "dateformat"; 
-import { COLUMNS } from "../shared/column";
 
 
 class Staffs extends Component {
@@ -9,7 +8,7 @@ class Staffs extends Component {
         super(props)
         this.state = {
           selectedEmployee: null,
-          selectedCol: COLUMNS,
+          selectedCol: "col-12 col-md-6 col-xl-4",
         };
   }
   
@@ -17,10 +16,10 @@ class Staffs extends Component {
     this.setState({selectedEmployee: staff})
   }
  
-  renderCols() {
-    
+  onSelectCol(col) {
+    this.setState({ selectedCol: col });
   }
-
+ 
   renderEmployee(staff) {
     if (staff != null) {
       return (
@@ -50,44 +49,62 @@ class Staffs extends Component {
     }
   }
   render() {
-    const cols = this.state.selectedCol.map((col) => {
-      return (
-        <div>
-          <div>
-            <Button color="success" className="my-2 m-1">
-              <h4> {col.name} </h4>
-            </Button>
-          </div>
-        </div>
-      );
-    });
         const staffs = this.props.staffsList.map((staff) => {
           return (
-              <div
-                key={staff.id}
-                className="col-12 col-md-6 col-xl-4"
-                onClick={() => this.onSelect(staff)}
-              >
-                <Row>
-                  <Card
-                    className="my-2"
-                    color="primary"
-                    outline
-                    style={{
-                      width: "90%",
-                    }}
-                  >
-                    <Col>
-                      <h4>{staff.name}</h4>
-                    </Col>
-                  </Card>
-                </Row>
-              </div>
+            <div
+              key={staff.id}
+              className={this.state.selectedCol}
+              onClick={() => this.onSelect(staff)}
+            >
+              <Row>
+                <Card
+                  className="my-2"
+                  color="primary"
+                  outline
+                  style={{
+                    width: "90%",
+                  }}
+                >
+                  <Col>
+                    <h4>{staff.name}</h4>
+                  </Col>
+                </Card>
+              </Row>
+            </div>
           );
         });
         return (
           <div className="container">
-            <div className="row">{cols}</div>
+               <div className="row">
+              <Button
+                color="success"
+                className="my-2 m-1"
+                onClick={() => this.onSelectCol("col-12 col-md-12 col-xl-12")}
+              >
+                <h4> 1 cột </h4>
+              </Button>
+              <Button
+                color="success"
+                className="my-2 m-1"
+                onClick={() => this.onSelectCol("col-12 col-md-6 col-xl-6")}
+              >
+                <h4> 2 cột </h4>
+              </Button>
+              <Button
+                color="success"
+                className="my-2 m-1"
+                onClick={() => this.onSelectCol("col-12 col-md-6 col-xl-3")}
+              >
+                <h4> 4 cột </h4>
+              </Button>
+              <Button
+                color="success"
+                className="my-2 m-1"
+                onClick={() => this.onSelectCol("col-12 col-md-6 col-xl-2")}
+              >
+                <h4> 6 cột </h4>
+              </Button>
+            </div>
             <div className="row">{staffs}</div>
             <div className="row">
               {this.renderEmployee(this.state.selectedEmployee)}
