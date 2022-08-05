@@ -2,26 +2,9 @@ import React from "react";
 
 export default function Footer(props) {
   return (
-    <div className="footer bg-primary">
+    <div className="footer bg-primary shadow text-white">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-4 offset-1 col-sm-2">
-            <h5>Links</h5>
-            <ul className="list-unstyled">
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">About</a>
-              </li>
-              <li>
-                <a href="#">Menu</a>
-              </li>
-              <li>
-                <a href="contactus.html">Contact</a>
-              </li>
-            </ul>
-          </div>
           <div className="col-7 col-sm-5">
             <h5>Our Address</h5>
             <address>
@@ -39,7 +22,7 @@ export default function Footer(props) {
               <a href="mailto:confusion@food.net">confusion@food.net</a>
             </address>
           </div>
-          <div className="col-12 col-sm-4 align-self-center">
+          <div className="col-12 col-sm-7 align-self-center">
             <div className="text-center">
               <a
                 className="btn btn-social-icon btn-google"
