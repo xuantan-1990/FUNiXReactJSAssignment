@@ -4,15 +4,15 @@ import {
   Navbar,
   NavbarBrand,
   NavItem,
-  NavLink,
   NavbarToggler,
   Collapse, Button
 } from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
     return (
       <div>
-        <Navbar dark expand="md">
+        <Navbar dark expand="md" color='primary'>
           <div className="container">
             <NavbarToggler />
             <NavbarBrand className="mr-auto" href="/">
@@ -32,7 +32,7 @@ export default function Header() {
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/bangluong">
-                    <span className="fa fa-money fa-lg"> </span> Bảng lương
+                    <span className="fa fa-money fa-lg"></span> Bảng lương
                   </NavLink>
                 </NavItem>
               </Nav>

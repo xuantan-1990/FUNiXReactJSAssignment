@@ -28,6 +28,7 @@ class Main extends Component {
     <div>
       <Header />
       <Switch>
+        <Route path="/bangluong" component={() => <Departments departments={this.state.departments} />}/>
         <Route
           exact
           path="/nhanvien"
@@ -35,7 +36,6 @@ class Main extends Component {
         />
         <Route path="/nhanvien/:staffId" component={StaffWithId} />
         <Route
-          exact
           path="/phongban"
           component={() => <Departments departments={this.state.departments} />}
         />
