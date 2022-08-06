@@ -2,17 +2,17 @@ import React, {Component} from "react";
 import Header from "./HeaderCom";
 import Footer from "./FooterCom";
 import Staffs from './StaffsCom';
-import { STAFFS } from '../shared/staffs';
+import { DEPARTMENTS, STAFFS } from '../shared/staffs';
 import { Switch, Route, Redirect} from 'react-router-dom'
 import StaffDetail from "./StaffDetailCom";
-
+import Departments from "./DepartmentCom";
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       staffs: STAFFS,
-     
+      departments: DEPARTMENTS
     }
   }
   render() {
@@ -34,7 +34,11 @@ class Main extends Component {
           component={() => <Staffs staffs={this.state.staffs} />}
         />
         <Route path="/nhanvien/:staffId" component={StaffWithId} />
-        
+        <Route
+          exact
+          path="/phongban"
+          component={() => <Departments departments={this.state.departments} />}
+        />
       </Switch>
       <Footer />
     </div>
