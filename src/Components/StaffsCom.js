@@ -2,14 +2,10 @@ import React,{Component} from 'react';
 import {Card, CardBody, CardImg, CardText, CardImgOverlay, CardTitle} from 'reactstrap'
 
 export default class Staffs extends Component {
-    constructor(props) {
-        super(props)
-
-    }
     render() {
         const Staff = this.props.staffs.map(staff => {
             return (
-                <div key={staff.id} className='col-6 col-md-4 col-xl-2'>
+                <div key={staff.id} className='col-6 col-md-4 col-xl-2 mb-3'>
                     <Card>
                         <CardImg width='100%' src={staff.image} alt={staff.name} />
                         <CardBody>
