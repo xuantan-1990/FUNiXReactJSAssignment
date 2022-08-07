@@ -17,19 +17,28 @@ const luongTC = 200000;
     return (
       <div className="container">
         <Card>
-          <CardTitle className="p-3 bg-white rounded m-2">
-            {salary.name}
+          <CardTitle className="p-3 bg-white rounded m-2 AppLeft">
+            <h2>{salary.name}</h2>
           </CardTitle>
           <CardBody>
-            <CardText>Mã nhân viên: {salary.id}</CardText>
-            <CardText>Hệ số lương: {salary.salaryScale}</CardText>
-            <CardText>Số giờ làm thêm: {salary.overTime}</CardText>
-            <CardText className="p-2 bg-light shadow">
-              Lương:{""}
-              {(salary.salaryScale * luongCB + salary.overTime * luongTC).toFixed(0)}
+            <CardText className="AppLeft ml-3">
+              Mã nhân viên: {salary.id}
+            </CardText>
+            <CardText className="AppLeft ml-3">
+              Hệ số lương: {salary.salaryScale}
+            </CardText>
+            <CardText className="AppLeft ml-3">
+              Số giờ làm thêm: {salary.overTime}
+            </CardText>
+            <CardText className="pl-4 bg-light shadow AppLeft ml-3">
+              Lương:{" "}
+              {(
+                salary.salaryScale * luongCB +
+                salary.overTime * luongTC
+              ).toFixed(0)}
             </CardText>
           </CardBody>
-            </Card>
+        </Card>
       </div>
     );
 }
