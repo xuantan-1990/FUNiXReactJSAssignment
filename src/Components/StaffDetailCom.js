@@ -33,7 +33,7 @@ export default function StaffDetail(props) {
             <div className="row">
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <Link to="/staff">Nhân Viên</Link>
+                  <Link to="/nhanvien">Nhân Viên</Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem active>{props.nhanvien.name}</BreadcrumbItem>
               </Breadcrumb>

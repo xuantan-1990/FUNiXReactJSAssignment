@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardTitle,
-} from "reactstrap";
+import { Card, CardTitle } from "reactstrap";
 
 export default class Departments extends Component {
   render() {
@@ -13,13 +10,15 @@ export default class Departments extends Component {
             <CardTitle className="AppLeft ml-1">
               <h2>{department.name}</h2>
             </CardTitle>
-            <CardTitle className="AppLeft ml-5">Số lượng nhân viên: {department.numberOfStaff}</CardTitle>
+            <CardTitle className="AppLeft ml-5">
+              Số lượng nhân viên: {department.numberOfStaff}
+            </CardTitle>
           </Card>
         </div>
       );
     });
     return (
-      <div className="container col-12">
+      <div className="container col-12 col-md-11 col-xl-11">
         <div className="row">{Depart}</div>
       </div>
     );

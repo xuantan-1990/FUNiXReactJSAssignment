@@ -48,7 +48,7 @@ const Salary = (props) => {
         <div className="row">
           <Breadcrumb>
             <BreadcrumbItem>
-              <Link to="/staffs">Nhân viên</Link>
+              <Link to="/nhanvien">Nhân viên</Link>
             </BreadcrumbItem>
             <BreadcrumbItem active>
               Bảng lương
