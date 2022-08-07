@@ -3,9 +3,10 @@ import Header from "./HeaderCom";
 import Footer from "./FooterCom";
 import Staffs from './StaffsCom';
 import { DEPARTMENTS, STAFFS } from '../shared/staffs';
-import { Switch, Route, Redirect} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import StaffDetail from "./StaffDetailCom";
 import Departments from "./DepartmentCom";
+import Salary from "./SalaryCom";
 
 class Main extends Component {
   constructor(props) {
@@ -28,7 +29,10 @@ class Main extends Component {
     <div>
       <Header />
       <Switch>
-        <Route path="/bangluong" component={() => <Departments departments={this.state.departments} />}/>
+        <Route
+          path="/bangluong"
+          component={() => <Salary luong={this.state.staffs} />}
+        />
         <Route
           exact
           path="/nhanvien"

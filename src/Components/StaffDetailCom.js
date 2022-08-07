@@ -2,9 +2,7 @@ import React from 'react';
 import {
   Card,
   CardImg,
-  CardText,
   CardBody,
-  CardTitle,
   Breadcrumb,
   BreadcrumbItem,
 } from "reactstrap";
@@ -17,8 +15,12 @@ function RenderStaff({ staff }) {
       <Card>
         <CardImg width="100%" src={staff.image} value={staff.name} />
         <CardBody>
-          <CardTitle>{staff.name}</CardTitle>
-          <CardText>{staff.doB}</CardText>
+          <h3>Họ và tên: {staff.name}</h3>
+          <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
+          <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
+          <p>Phòng ban: {staff.department.name}</p>
+          <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
+          <p>Số ngày đã làn thêm: {staff.overTime}</p>
         </CardBody>
       </Card>
     </div>
