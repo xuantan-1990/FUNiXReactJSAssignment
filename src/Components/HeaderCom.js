@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Nav,
   Navbar,
@@ -10,15 +10,18 @@ import {
 import { NavLink } from "react-router-dom";
 
 export default function Header() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const toggleNav = () => setIsNavOpen(!isNavOpen); 
+ 
     return (
       <div>
-        <Navbar dark expand="md" color='primary'>
+        <Navbar dark expand="md" color="primary">
           <div className="container">
-            <NavbarToggler />
+            <NavbarToggler onClick={toggleNav} />
             <NavbarBrand className="mr-auto" href="/">
               <img src="assets/images/logo.png" width="100" alt="Employees" />
             </NavbarBrand>
-            <Collapse navbar>
+            <Collapse isOpen={isNavOpen} navbar>
               <Nav navbar>
                 <NavItem>
                   <NavLink className="nav-link" to="/nhanvien">
