@@ -6,6 +6,7 @@ import {
   CardTitle,
   Breadcrumb,
   BreadcrumbItem,
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -35,7 +36,7 @@ const luongTC = 200000;
 const Salary = (props) => {
     const [sortSalary, setSortSalary] = useState(false);
     
-    const salary = props.luong.map((ss) => {
+    const salary = props.luong.sort((a,b)=> sortSalary ? a.salaryScale - b.salaryScale : b.salaryScale - a.salaryScale).map((ss) => {
         return (
           <div className="col-12 col-md-6 col-lg-4 mt-2 mb-2" key={ss.id}>
             <RenderSalary salary={ss} />
@@ -54,6 +55,10 @@ const Salary = (props) => {
             </BreadcrumbItem>
           </Breadcrumb>
             </div>
+            <Button className='btn btn-danger'
+            onClick={()=>setSortSalary(!sortSalary)}>
+Sắp xếp theo hệ số lương
+            </Button>
             <div className='row shadow mb-3'>{salary}</div>
       </div>
     );
