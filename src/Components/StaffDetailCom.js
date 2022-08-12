@@ -1,12 +1,12 @@
 import React from 'react';
 import {
   Breadcrumb,
-  BreadcrumbItem, Row
+  BreadcrumbItem, CardBody, CardImg, CardSubtitle, Row,Card
 } from "reactstrap";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
-function RenderStaff({ staff }) {
+ export function RenderStaff({ staff }) {
   return (
     <div>
       <Row>
@@ -25,6 +25,20 @@ function RenderStaff({ staff }) {
     </div>
   );
 }
+
+export  const RenderStaffItem = ({ staff }) => {
+  return (
+    <Link to={`/nhanvien/${staff.id}`}>
+      <Card>
+        <CardImg src={staff.image} alt={staff.name} />
+        <CardBody>
+          <CardSubtitle>{staff.name}</CardSubtitle>
+        </CardBody>
+      </Card>
+    </Link>
+  );
+};
+
 export default function StaffDetail(props) {
     console.log(props);
     if (props.nhanvien != null) {
