@@ -12,13 +12,6 @@ export default class Staffs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      doB: "",
-      startDate: "",
-
-      touched: {
-        doB: false,
-        startDate: false,
-      },
       nameF: "",
       modalOpen: false,
     };
@@ -56,50 +49,25 @@ export default class Staffs extends Component {
       salaryScale: value.salaryScale,
       annualLeave: value.annualLeave,
       overTime: value.overTime,
-      doB: this.state.doB,
-      startDate: this.state.startDate,
+      doB: value.doB,
+      startDate: value.startDate,
       department: value.department,
       image: "/assets/images/alberto.png",
     };
-      if (!this.state.doB || !this.state.startDate) {
-        this.setState({
-          touched: { doB: true, startDate: true },
-        });
-      } else {
+      
         this.props.onAdd(newStaff);
         console.log(newStaff);
-      }
+      
   }
 
   toggleModal = () => {
     this.setState({ modalOpen: !this.state.modalOpen });
   };
 
-  validate(
-    doB,
-    startDate,
-  ) {
-    const errors = {
-      doB: "",
-      startDate: "",
-    };
-
-    if (this.state.touched.doB && doB.length < 1)
-      errors.doB = "Yêu cầu cập nhật!";
-
-    if (this.state.touched.startDate && startDate.length < 1)
-      errors.startDate = "Yêu cầu cập nhật!";
-
-    return errors;
-  }
   
 
   render() {
-    const errors = this.validate(
-      this.state.doB,
-      this.state.startDate,
-    );
-
+    
     const Staffs = this.props.staffs
       .filter((val) => {
         //điều kiện this.state.nameF === '' render toàn bộ nhân viên khi ko có nhập ô tìm kiếm
@@ -295,17 +263,25 @@ export default class Staffs extends Component {
                   doB
                 </Label>
                 <Col md={8}>
-                  <Input
+                  <Control.text
                     type="date"
-                    name="doB"
                     id="doB"
-                    value={this.state.doB}
-                    valid={errors.doB === ""}
-                    invalid={errors.doB !== ""}
-                    onBlur={this.handleBlur("doB")}
-                    onChange={this.handleInputChange}
+                    name="doB"
+                    placeholder="doB"
+                    model=".doB"
+                    className="form-control"
+                    validators={{
+                      required,
+                    }}
                   />
-                  <FormFeedback>{errors.doB}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".doB"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -314,17 +290,25 @@ export default class Staffs extends Component {
                   startDate
                 </Label>
                 <Col md={8}>
-                  <Input
+                  <Control.text
                     type="date"
+                    id=" startDate"
                     name="startDate"
-                    id="startDate"
-                    value={this.state.startDate}
-                    valid={errors.startDate === ""}
-                    invalid={errors.startDate !== ""}
-                    onBlur={this.handleBlur("startDate")}
-                    onChange={this.handleInputChange}
+                    placeholder="startDate"
+                    model=".startDate"
+                    className="form-control"
+                    validators={{
+                      required,
+                    }}
                   />
-                  <FormFeedback>{errors.startDate}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".startDate"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
+                  />
                 </Col>
               </Row>
 
