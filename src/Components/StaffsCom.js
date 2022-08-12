@@ -1,28 +1,23 @@
 import React,{Component} from 'react';
 import { Form, Button, Modal, ModalHeader, ModalBody, Label, Col, FormFeedback, Row, Input } from 'reactstrap';
 import { RenderStaffItem } from './StaffDetailCom';
+import { Control, LocalForm, Errors } from "react-redux-form";
   
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
+const isNumber = (val) => !isNaN(Number(val));
 
 export default class Staffs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      salaryScale: 1,
-      annualLeave: 0,
-      overTime: 0,
       doB: "",
       startDate: "",
-      department: "",
-      image:'/assets/images/alberto.png',
+
       touched: {
         doB: false,
         startDate: false,
-        name: false,
-        salaryScale: false,
-        annualLeave: false,
-        overTime: false,
-        department: false,
       },
       nameF: "",
       modalOpen: false,
@@ -47,7 +42,7 @@ export default class Staffs extends Component {
   // thay đổi trạng thái dữ liệu của các trường trong state
   handleInputChange(event) {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -55,23 +50,25 @@ export default class Staffs extends Component {
     });
   }
 
-    handleSubmit(event)  {
-        console.log('Current State is: ' + JSON.stringify(this.state));
-        alert('Current State is: ' + JSON.stringify(this.state));
-        event.preventDefault();
-    
+    handleSubmit(value)  {
     const newStaff = {
-      name: this.state.name,
-      salaryScale: this.state.salaryScale,
-      annualLeave: this.state.annualLeave,
-      overTime: this.state.overTime,
+      name: value.name,
+      salaryScale: value.salaryScale,
+      annualLeave: value.annualLeave,
+      overTime: value.overTime,
       doB: this.state.doB,
       startDate: this.state.startDate,
-      department: this.state.department,
-      image: this.state.image
+      department: value.department,
+      image: "/assets/images/alberto.png",
     };
-    this.props.onAdd(newStaff)
-    console.log(newStaff);
+      if (!this.state.doB || !this.state.startDate) {
+        this.setState({
+          touched: { doB: true, startDate: true },
+        });
+      } else {
+        this.props.onAdd(newStaff);
+        console.log(newStaff);
+      }
   }
 
   toggleModal = () => {
@@ -79,36 +76,13 @@ export default class Staffs extends Component {
   };
 
   validate(
-    name,
-    salaryScale,
-    annualLeave,
-    overTime,
     doB,
     startDate,
-    department
   ) {
     const errors = {
-      name: "",
-      salaryScale: "",
-      annualLeave: "",
-      overTime: "",
       doB: "",
       startDate: "",
-      department: "",
     };
-    if (this.state.touched.name && name.length < 3)
-      errors.name = "Should be >=3 characters";
-    else if (this.state.touched.name && name.length > 10)
-      errors.name = "Should be <=10 characters";
-
-    if (this.state.touched.salaryScale && salaryScale.length < 1)
-      errors.salaryScale = "Yêu cầu cập nhật!";
-
-    if (this.state.touched.annualLeave && annualLeave.length < 1)
-      errors.annualLeave = "Yêu cầu cập nhật!";
-
-    if (this.state.touched.overTime && overTime.length < 1)
-      errors.overTime = "Yêu cầu cập nhật!";
 
     if (this.state.touched.doB && doB.length < 1)
       errors.doB = "Yêu cầu cập nhật!";
@@ -116,21 +90,14 @@ export default class Staffs extends Component {
     if (this.state.touched.startDate && startDate.length < 1)
       errors.startDate = "Yêu cầu cập nhật!";
 
-    if (this.state.touched.department && department.length < 1)
-      errors.department = "Yêu cầu cập nhật!";
-
     return errors;
   }
+  
 
   render() {
     const errors = this.validate(
-      this.state.name,
-      this.state.salaryScale,
-      this.state.annualLeave,
-      this.state.overTime,
       this.state.doB,
       this.state.startDate,
-      this.state.department
     );
 
     const Staffs = this.props.staffs
@@ -208,24 +175,34 @@ export default class Staffs extends Component {
             Cập nhật nhân viên
           </ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.handleSubmit}>
+            <LocalForm onSubmit={(value) => this.handleSubmit(value)}>
               <Row className="form-group">
                 <Label htmlFor="name" md={4}>
                   Name
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
+                  <Control.text
                     id="name"
                     name="name"
                     placeholder="Name"
-                    value={this.state.name}
-                    valid={errors.name === ""}
-                    invalid={errors.name !== ""}
-                    onBlur={this.handleBlur("name")}
-                    onChange={this.handleInputChange}
+                    model=".name"
+                    className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(3),
+                      maxLength: maxLength(15),
+                    }}
                   />
-                  <FormFeedback>{errors.name}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".name"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      minLength: "Must be greater than 2 characters",
+                      maxLength: "Must be 15 characters or less",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -234,18 +211,26 @@ export default class Staffs extends Component {
                   salaryScale
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="number"
-                    name="salaryScale"
+                  <Control.text
                     id="salaryScale"
-                    placeholder="Number"
-                    value={this.state.salaryScale}
-                    valid={errors.salaryScale === ""}
-                    invalid={errors.salaryScale !== ""}
-                    onBlur={this.handleBlur("salaryScale")}
-                    onChange={this.handleInputChange}
+                    name="salaryScale"
+                    placeholder="salaryScale"
+                    model=".salaryScale"
+                    className="form-control"
+                    validators={{
+                      required,
+                      isNumber,
+                    }}
                   />
-                  <FormFeedback>{errors.salaryScale}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".salaryScale"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      isNumber: "Must be a number",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -254,17 +239,26 @@ export default class Staffs extends Component {
                   annualLeave
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="number"
-                    name="annualLeave"
+                  <Control.text
                     id="annualLeave"
-                    value={this.state.annualLeave}
-                    valid={errors.annualLeave === ""}
-                    invalid={errors.annualLeave !== ""}
-                    onBlur={this.handleBlur("annualLeave")}
-                    onChange={this.handleInputChange}
+                    name="annualLeave"
+                    placeholder="annualLeave"
+                    model=".annualLeave"
+                    className="form-control"
+                    validators={{
+                      required,
+                      isNumber,
+                    }}
                   />
-                  <FormFeedback>{errors.annualLeave}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".annualLeave"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      isNumber: "Must be a number",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -273,17 +267,26 @@ export default class Staffs extends Component {
                   overTime
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="number"
-                    name="overTime"
+                  <Control.text
                     id="overTime"
-                    value={this.state.overTime}
-                    valid={errors.overTime === ""}
-                    invalid={errors.overTime !== ""}
-                    onBlur={this.handleBlur("overTime")}
-                    onChange={this.handleInputChange}
+                    name="overTime"
+                    placeholder="overTime"
+                    model=".overTime"
+                    className="form-control"
+                    validators={{
+                      required,
+                      isNumber,
+                    }}
                   />
-                  <FormFeedback>{errors.overTime}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".overTime"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      isNumber: "Must be a number",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -330,23 +333,36 @@ export default class Staffs extends Component {
                   department
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
-                    name="department"
+                  <Control.text
                     id="department"
-                    value={this.state.department}
-                    valid={errors.department === ""}
-                    invalid={errors.department !== ""}
-                    onBlur={this.handleBlur("department")}
-                    onChange={this.handleInputChange}
+                    name="department"
+                    placeholder="department"
+                    model=".department"
+                    className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(3),
+                      maxLength: maxLength(10),
+                    }}
                   />
-                  <FormFeedback>{errors.department}</FormFeedback>
+                  <Errors
+                    className="text-danger"
+                    model=".department"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      minLength: "Must be greater than 2 characters",
+                      maxLength: "Must be 15 characters or less",
+                    }}
+                  />
                 </Col>
               </Row>
-            <Button type="submit" color="primary">
-              Thêm
-            </Button>
-            </Form>
+              <Row className="form-group">
+                <Button type="submit" color="primary">
+                  Thêm
+                </Button>
+              </Row>
+            </LocalForm>
           </ModalBody>
         </Modal>
       </div>
