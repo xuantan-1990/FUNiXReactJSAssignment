@@ -6,7 +6,8 @@ import {
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
- export function RenderStaff({ staff }) {
+export function RenderStaff({ staff }) {
+   console.log({ staff });
   return (
     <div>
       <Row>

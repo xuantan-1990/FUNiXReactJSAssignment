@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import { Form, Button, Modal, ModalHeader, ModalBody, Label, Col, FormFeedback, Row, Input } from 'reactstrap';
 import { RenderStaffItem } from './StaffDetailCom';
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { DEPARTMENTS } from '../shared/staffs';
+// import { addStaff } from '../redux/ActionCreators';
   
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -16,7 +18,7 @@ export default class Staffs extends Component {
       modalOpen: false,
     };
     this.timNhanVien = this.timNhanVien.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
+    // this.handleBlur = this.handleBlur.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -28,9 +30,9 @@ export default class Staffs extends Component {
   }
 
   // thay đổi trạng thái của touched từ false => true khi click vào vùng input
-  handleBlur = (field) => (event) => {
-    this.setState({ touched: { ...this.state.touched, [field]: true } });
-  };
+  // handleBlur = (field) => (event) => {
+  //   this.setState({ touched: { ...this.state.touched, [field]: true } });
+  // };
 
   // thay đổi trạng thái dữ liệu của các trường trong state
   handleInputChange(event) {
@@ -43,31 +45,39 @@ export default class Staffs extends Component {
     });
   }
 
-    handleSubmit(value)  {
-    const newStaff = {
-      name: value.name,
-      salaryScale: value.salaryScale,
-      annualLeave: value.annualLeave,
-      overTime: value.overTime,
-      doB: value.doB,
-      startDate: value.startDate,
-      department: value.department,
-      image: "/assets/images/alberto.png",
-    };
-      
-        this.props.onAdd(newStaff);
-        console.log(newStaff);
-      
+  handleSubmit(values) {
+    const department= values.department === "Sale"? DEPARTMENTS[0]: values.department === "HR"? DEPARTMENTS[1]: values.department === "Marketing"? DEPARTMENTS[2]:values.department === "IT"? DEPARTMENTS[3] :  DEPARTMENTS[4] 
+   
+    console.log(department);
+      console.log(values.department);
+    // const newStaff = {
+    //   name: values.name,
+    //   salaryScale: values.salaryScale,
+    //   annualLeave: values.annualLeave,
+    //   overTime: values.overTime,
+    //   doB: values.doB,
+    //   startDate: values.startDate,
+    //   department: values.department,
+    //   image: "/assets/images/alberto.png",
+    // };
+    this.props.addStaff(
+      values.name,
+      values.salaryScale,
+      values.annualLeave,
+      values.overTime,
+      values.doB,
+      values.startDate,
+      department,
+     "/assets/images/alberto.png"
+    );
+    
   }
 
   toggleModal = () => {
     this.setState({ modalOpen: !this.state.modalOpen });
   };
 
-  
-
   render() {
-    
     const Staffs = this.props.staffs
       .filter((val) => {
         //điều kiện this.state.nameF === '' render toàn bộ nhân viên khi ko có nhập ô tìm kiếm
@@ -112,7 +122,11 @@ export default class Staffs extends Component {
               </div>
               <div className="col-4 col-auto">
                 {/* Nút thêm nhân viên */}
-                <Button outline onClick={this.toggleModal}>
+                <Button
+                  outline
+                  onClick={this.toggleModal}
+                  // addStaff={addStaff}
+                >
                   <span className="fa fa-plus fa-lg"></span>
                 </Button>
               </div>
@@ -143,7 +157,7 @@ export default class Staffs extends Component {
             Cập nhật nhân viên
           </ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={(value) => this.handleSubmit(value)}>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
               <Row className="form-group">
                 <Label htmlFor="name" md={4}>
                   Name
@@ -185,6 +199,7 @@ export default class Staffs extends Component {
                     placeholder="salaryScale"
                     model=".salaryScale"
                     className="form-control"
+                    defaultValue="1"
                     validators={{
                       required,
                       isNumber,
@@ -213,6 +228,7 @@ export default class Staffs extends Component {
                     placeholder="annualLeave"
                     model=".annualLeave"
                     className="form-control"
+                    defaultValue="0"
                     validators={{
                       required,
                       isNumber,
@@ -241,6 +257,7 @@ export default class Staffs extends Component {
                     placeholder="overTime"
                     model=".overTime"
                     className="form-control"
+                    defaultValue="0"
                     validators={{
                       required,
                       isNumber,
@@ -317,19 +334,26 @@ export default class Staffs extends Component {
                   department
                 </Label>
                 <Col md={8}>
-                  <Control.text
+                  <Control.select
                     id="department"
                     name="department"
                     placeholder="department"
                     model=".department"
                     className="form-control"
-                    validators={{
-                      required,
-                      minLength: minLength(3),
-                      maxLength: maxLength(10),
-                    }}
-                  />
-                  <Errors
+                    defaultValue="Sale"
+                    // validators={{
+                    //   required,
+                    //   minLength: minLength(3),
+                    //   maxLength: maxLength(10),
+                    // }}
+                  >
+                    <option >Sale</option>
+                    <option >HR</option>
+                    <option >Marketing</option>
+                    <option >IT</option>
+                    <option >Finance</option>
+                  </Control.select>
+                  {/* <Errors
                     className="text-danger"
                     model=".department"
                     show="touched"
@@ -338,7 +362,7 @@ export default class Staffs extends Component {
                       minLength: "Must be greater than 2 characters",
                       maxLength: "Must be 15 characters or less",
                     }}
-                  />
+                  /> */}
                 </Col>
               </Row>
               <Row className="form-group">
