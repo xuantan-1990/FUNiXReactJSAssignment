@@ -10,9 +10,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const luongCB = 3000000;
-const luongTC = 200000;
-function RenderSalary({ salary, sumSalary }) {
+function RenderSalary({ salary }) {
   return (
     <div className="container">
       <Card>
@@ -30,10 +28,7 @@ function RenderSalary({ salary, sumSalary }) {
             Số giờ làm thêm: {salary.overTime}
           </CardText>
           <CardText className="pl-4 bg-grey shadow AppLeft ml-3">
-            Lương:{" "}
-            {(salary.salaryScale * luongCB + salary.overTime * luongTC).toFixed(
-              0
-            )}
+            Lương:{salary.salary}
           </CardText>
         </CardBody>
       </Card>
@@ -43,7 +38,7 @@ function RenderSalary({ salary, sumSalary }) {
 const Salary = (props) => {
   const [sortSalary, setSortSalary] = useState(false);
 
-  const salary = props.luong
+  const salary = props.salarys
     .sort((a, b) =>
       sortSalary ? a.salaryScale - b.salaryScale : b.salaryScale - a.salaryScale
     )

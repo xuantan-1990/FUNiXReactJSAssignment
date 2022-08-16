@@ -1,9 +1,7 @@
 import React,{Component} from 'react';
-import { Form, Button, Modal, ModalHeader, ModalBody, Label, Col, FormFeedback, Row, Input } from 'reactstrap';
+import { Form, Button, Modal, ModalHeader, ModalBody, Label, Col, Row } from 'reactstrap';
 import { RenderStaffItem } from './StaffDetailCom';
 import { Control, LocalForm, Errors } from "react-redux-form";
-import { DEPARTMENTS } from '../shared/staffs';
-// import { addStaff } from '../redux/ActionCreators';
   
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -11,6 +9,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 
 export default class Staffs extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +17,6 @@ export default class Staffs extends Component {
       modalOpen: false,
     };
     this.timNhanVien = this.timNhanVien.bind(this);
-    // this.handleBlur = this.handleBlur.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -29,12 +27,6 @@ export default class Staffs extends Component {
     this.setState({ nameF: event.target.nameS.value });
   }
 
-  // thay đổi trạng thái của touched từ false => true khi click vào vùng input
-  // handleBlur = (field) => (event) => {
-  //   this.setState({ touched: { ...this.state.touched, [field]: true } });
-  // };
-
-  // thay đổi trạng thái dữ liệu của các trường trong state
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -46,28 +38,25 @@ export default class Staffs extends Component {
   }
 
   handleSubmit(values) {
-    const department= values.department === "Sale"? DEPARTMENTS[0]: values.department === "HR"? DEPARTMENTS[1]: values.department === "Marketing"? DEPARTMENTS[2]:values.department === "IT"? DEPARTMENTS[3] :  DEPARTMENTS[4] 
-   
-    console.log(department);
-      console.log(values.department);
-    // const newStaff = {
-    //   name: values.name,
-    //   salaryScale: values.salaryScale,
-    //   annualLeave: values.annualLeave,
-    //   overTime: values.overTime,
-    //   doB: values.doB,
-    //   startDate: values.startDate,
-    //   department: values.department,
-    //   image: "/assets/images/alberto.png",
-    // };
-    this.props.addStaff(
+    const departmentId =
+      values.departmentId === "Sale"
+        ? "Dept01"
+        : values.departmentId === "HR"
+        ? "Dept02"
+        : values.departmentId === "Marketing"
+        ? "Dept03"
+        : values.departmentId === "IT"
+        ? "Dept04"
+        : "Dept05"
+                
+    this.props.postStaff(
       values.name,
       values.salaryScale,
       values.annualLeave,
       values.overTime,
       values.doB,
       values.startDate,
-      department,
+      departmentId,
      "/assets/images/alberto.png"
     );
     
@@ -78,7 +67,7 @@ export default class Staffs extends Component {
   };
 
   render() {
-    const Staffs = this.props.staffs
+    const staffs = this.props.staffs
       .filter((val) => {
         //điều kiện this.state.nameF === '' render toàn bộ nhân viên khi ko có nhập ô tìm kiếm
         if (this.state.nameF === "") return val;
@@ -97,21 +86,6 @@ export default class Staffs extends Component {
         );
       });
 
-    //chỉ render toàn bộ nhân viên
-    //     const Staffs = this.props.staffs.map(staff => {
-    //   return (
-    //     <div key={staff.id} className="col-6 col-md-4 col-xl-2 mb-3">
-    //       <Card>
-    //         <Link to={`/nhanvien/${staff.id}`}>
-    //           <CardImg width="100%" src={staff.image} alt={staff.name} />
-    //           <CardBody>
-    //             <CardTitle>{staff.name}</CardTitle>
-    //           </CardBody>
-    //         </Link>
-    //       </Card>
-    //     </div>
-    //   );
-    // })
     return (
       <div className="container col-9">
         <div className="row m-1">
@@ -125,7 +99,6 @@ export default class Staffs extends Component {
                 <Button
                   outline
                   onClick={this.toggleModal}
-                  // addStaff={addStaff}
                 >
                   <span className="fa fa-plus fa-lg"></span>
                 </Button>
@@ -151,7 +124,7 @@ export default class Staffs extends Component {
           </div>
         </div>
         <hr />
-        <div className="row">{Staffs}</div>
+        <div className="row">{staffs}</div>
         <Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>
             Cập nhật nhân viên
@@ -338,31 +311,16 @@ export default class Staffs extends Component {
                     id="department"
                     name="department"
                     placeholder="department"
-                    model=".department"
+                    model=".departmentId"
                     className="form-control"
                     defaultValue="Sale"
-                    // validators={{
-                    //   required,
-                    //   minLength: minLength(3),
-                    //   maxLength: maxLength(10),
-                    // }}
                   >
-                    <option >Sale</option>
-                    <option >HR</option>
-                    <option >Marketing</option>
-                    <option >IT</option>
-                    <option >Finance</option>
+                    <option>Sale</option>
+                    <option>HR</option>
+                    <option>Marketing</option>
+                    <option>IT</option>
+                    <option>Finance</option>
                   </Control.select>
-                  {/* <Errors
-                    className="text-danger"
-                    model=".department"
-                    show="touched"
-                    messages={{
-                      required: "Required",
-                      minLength: "Must be greater than 2 characters",
-                      maxLength: "Must be 15 characters or less",
-                    }}
-                  /> */}
                 </Col>
               </Row>
               <Row className="form-group">

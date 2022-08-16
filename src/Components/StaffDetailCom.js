@@ -7,7 +7,16 @@ import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
 export function RenderStaff({ staff }) {
-   console.log({ staff });
+ const department =
+   staff.departmentId === "Dept01"
+     ? "Sale"
+     : staff.departmentId === "Dept02"
+     ? "HR"
+     : staff.departmentId === "Dept03"
+     ? "Marketing"
+     : staff.departmentId === "Dept04"
+     ? "Marketing"
+     : "Finance"; 
   return (
     <div>
       <Row>
@@ -18,7 +27,7 @@ export function RenderStaff({ staff }) {
           <h3>Họ và tên: {staff.name}</h3>
           <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
           <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-          <p>Phòng ban: {staff.department.name}</p>
+          <p>Phòng ban: {department}</p>
           <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
           <p>Số ngày đã làn thêm: {staff.overTime}</p>
         </div>
@@ -41,7 +50,6 @@ export  const RenderStaffItem = ({ staff }) => {
 };
 
 export default function StaffDetail(props) {
-    console.log(props);
     if (props.nhanvien != null) {
         return (
           <div className="container">
@@ -52,12 +60,13 @@ export default function StaffDetail(props) {
                 </BreadcrumbItem>
                 <BreadcrumbItem active>{props.nhanvien.name}</BreadcrumbItem>
               </Breadcrumb>
-                <hr />
-              
+              <hr />
             </div>
             <div className="row">
               <div className="col-12 col-md-7 m-1">
-                <RenderStaff staff={props.nhanvien} />
+                <RenderStaff
+                  staff={props.nhanvien}
+                />
               </div>
             </div>
           </div>
