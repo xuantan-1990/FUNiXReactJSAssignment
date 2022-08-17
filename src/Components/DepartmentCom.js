@@ -18,7 +18,7 @@ export default class Departments extends Component {
       );
     });
     return (
-      <div className="container col-12 col-md-11 col-xl-11">
+      <div className="container col-9">
         <div className="row">{Depart}</div>
       </div>
     );

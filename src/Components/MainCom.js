@@ -3,7 +3,7 @@ import Header from "./HeaderCom";
 import Footer from "./FooterCom";
 import Staffs from './StaffsCom';
 import { DEPARTMENTS, STAFFS } from '../shared/staffs';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import StaffDetail from "./StaffDetailCom";
 import Departments from "./DepartmentCom";
 import Salary from "./SalaryCom";
@@ -43,6 +43,7 @@ class Main extends Component {
           path="/phongban"
           component={() => <Departments departments={this.state.departments} />}
         />
+        <Redirect to='/nhanvien'/>
       </Switch>
       <Footer />
     </div>
