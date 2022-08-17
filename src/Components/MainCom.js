@@ -41,10 +41,16 @@ const mapDispatchToProps = (dispatch) => ({
         image
       )
     ),
-  fetchStaffs: () => { dispatch(fetchStaffs()) },
-  fetchDeparts: () => { dispatch(fetchDeparts()) },
-  fetchSalarys: () => { dispatch(fetchSalarys()) },
-})
+  fetchStaffs: () => {
+    dispatch(fetchStaffs());
+  },
+  fetchDeparts: () => {
+    dispatch(fetchDeparts());
+  },
+  fetchSalarys: () => {
+    dispatch(fetchSalarys());
+  },
+});
 
 class Main extends Component {
 
@@ -121,10 +127,7 @@ class Main extends Component {
             />
           )}
         />
-        <Route
-          path="/phongban/:departmentId"
-          component={DepartWithId} 
-        />
+        <Route path="/phongban/:departmentId" component={DepartWithId} />
         <Redirect to="/nhanvien" />
       </Switch>
       <Footer />

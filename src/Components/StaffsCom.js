@@ -1,13 +1,28 @@
 import React,{Component} from 'react';
-import { Form, Button, Modal, ModalHeader, ModalBody, Label, Col, Row } from 'reactstrap';
-import { RenderStaffItem } from './StaffDetailCom';
+import { Card, Button, Modal, ModalHeader, ModalBody, Label, Col, CardBody, CardImg, CardSubtitle, Row } from 'reactstrap';
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { Link } from "react-router-dom";
   
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 
+export const RenderStaffItem = ({ staff }) => {
+
+  return (
+    <div>
+      <Link to={`/nhanvien/${staff.id}`}>
+        <Card>
+          <CardImg src={staff.image} alt={staff.name} />
+          <CardBody>
+            <CardSubtitle>{staff.name}</CardSubtitle>
+          </CardBody>
+        </Card>
+      </Link>
+    </div>
+  );
+};
 export default class Staffs extends Component {
   
   constructor(props) {
@@ -20,6 +35,7 @@ export default class Staffs extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+  
   }
 
   timNhanVien(event) {
@@ -96,23 +112,24 @@ export default class Staffs extends Component {
               </div>
               <div className="col-4 col-auto">
                 {/* Nút thêm nhân viên */}
-                <Button
-                  outline
-                  onClick={this.toggleModal}
-                >
+                <Button outline onClick={this.toggleModal}>
                   <span className="fa fa-plus fa-lg"></span>
                 </Button>
               </div>
             </div>
           </div>
           <div className="col-12 col-md-5">
-            <Form onSubmit={this.timNhanVien} className="form-group row mt-3">
+            <LocalForm
+              onSubmit={(value) => this.timNhanVien(value)}
+              className="form-group row mt-3"
+            >
               <div className="col-8 col-md-8">
-                <input
+                <Control.text
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  model=".name"
                   className="form-control"
-                  type="text"
-                  placeholder="tìm kiếm nhân viên"
-                  name="nameS"
                 />
               </div>
               <div className="col-4 col-auto">
@@ -120,7 +137,7 @@ export default class Staffs extends Component {
                   Tìm
                 </Button>
               </div>
-            </Form>
+            </LocalForm>
           </div>
         </div>
         <hr />

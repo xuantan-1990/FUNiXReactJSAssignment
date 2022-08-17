@@ -4,6 +4,7 @@ export const ADD_STAFFS = 'ADD_STAFFS';
 export const STAFFS_LOADING = 'STAFFS_LOADING';
 export const STAFFS_FAILED = 'STAFFS_FAILED';
 
+
 //ActionTypes Department
 export const ADD_DEPARTMENT = "ADD_DEPARTMENT";
 export const ADD_DEPARTS = "ADD_DEPARTS";

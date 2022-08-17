@@ -30,8 +30,8 @@ export const StaffsReducer = (state = { isLoading: true, errMess: null, staffs: 
 
       case ActionTypes.ADD_STAFF:
         const staff = action.payload;
-            return { ...state, staffs: state.staffs.concat(staff) };
-        
+        return { ...state, staffs: state.staffs.concat(staff) };
+ 
       default:
         return state;
     }
