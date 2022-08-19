@@ -124,6 +124,7 @@ class Main extends Component {
               departments={this.props.departments.departs}
               departsIsLoading={this.props.departments.isLoading}
               departsErrMess={this.props.departments.errMess}
+              staffs={this.props.staffs.staffs}
             />
           )}
         />

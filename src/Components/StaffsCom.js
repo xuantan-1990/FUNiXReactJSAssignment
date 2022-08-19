@@ -1,15 +1,26 @@
-import React,{Component} from 'react';
-import { Card, Button, Modal, ModalHeader, ModalBody, Label, Col, CardBody, CardImg, CardSubtitle, Row } from 'reactstrap';
+import React, { Component } from "react";
+import {
+  Card,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Label,
+  Col,
+  CardBody,
+  CardImg,
+  CardSubtitle,
+  Row,
+} from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
-  
+
 const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !(val) || (val.length <= len);
-const minLength = (len) => (val) => val && (val.length >= len);
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
 const isNumber = (val) => !isNaN(Number(val));
 
 export const RenderStaffItem = ({ staff }) => {
-
   return (
     <div>
       <Link to={`/nhanvien/${staff.id}`}>
@@ -24,7 +35,6 @@ export const RenderStaffItem = ({ staff }) => {
   );
 };
 export default class Staffs extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +45,10 @@ export default class Staffs extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-  
   }
 
-  timNhanVien(event) {
-    event.preventDefault();
-    this.setState({ nameF: event.target.nameS.value });
+  timNhanVien(value) {
+    this.setState({ nameF: value.name });
   }
 
   handleInputChange(event) {
@@ -63,8 +71,8 @@ export default class Staffs extends Component {
         ? "Dept03"
         : values.departmentId === "IT"
         ? "Dept04"
-        : "Dept05"
-                
+        : "Dept05";
+
     this.props.postStaff(
       values.name,
       values.salaryScale,
@@ -73,9 +81,8 @@ export default class Staffs extends Component {
       values.doB,
       values.startDate,
       departmentId,
-     "/assets/images/alberto.png"
+      "/assets/images/alberto.png"
     );
-    
   }
 
   toggleModal = () => {
@@ -89,11 +96,13 @@ export default class Staffs extends Component {
         if (this.state.nameF === "") return val;
         //tìm kiếm nhân viên theo tên
         else if (
+          val.name !== undefined &&
+          this.state.nameF !== "" &&
           val.name.toLowerCase().includes(this.state.nameF.toLowerCase())
         )
           return val;
-        return 0;
       })
+
       .map((val) => {
         return (
           <div className="col-6 col-md-4 col-lg-2 mt-3 mb-3" key={val.id}>
